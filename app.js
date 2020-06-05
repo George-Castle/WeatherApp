@@ -5,13 +5,22 @@ window.addEventListener('load', ()=>{
     let temperatureDegree = document.querySelector(".temperature-degree");
     let locationTimezone = document.querySelector(".location-timezone");
     let temperatureSection = document.querySelector(".temperature");
+    let monSelection = document.querySelector(".monday");
+    let tueSelection = document.querySelector(".tuesday");
+    let wedSelection = document.querySelector(".wednesday");
+    let thuSelection = document.querySelector(".thursday");
+    let friSelection = document.querySelector(".friday");
+    let satSelection = document.querySelector(".saturday");
+    let sunSelection = document.querySelector(".sunday");
     const temperatureSpan = document.querySelector(".temperature span");
+ 
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(position =>{
             long = position.coords.longitude;
             lat = position.coords.latitude;
-            long = 69.9631;
-            lat = 32.0208;
+            let dayAccessed = 0;
+            //long = 69.9631;
+            //lat = 32.0208;
 
             //const proxy = 'https://cors-anywhere.herokuapp.com/';
             const api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=a72fb646dce8682633bce3aada486a94`
@@ -21,18 +30,7 @@ window.addEventListener('load', ()=>{
             })
             .then(data =>{
                 console.log(data);
-                const {temp, weather} = data.current;
-                //Set DOM Elements from the API
-                //FORMULA for FARENHEIGHT
-                let temperature = Math.round(((temp - 273.15) + Number.EPSILON) * 100) / 100;
-                temperatureDegree.textContent = temperature;
-                temperatureDescription.textContent = weather[0].description;
-                locationTimezone.textContent = data.timezone;
-                //FORMULA for FARENHEIGHT
-                let farenheight =  Math.round((((temp - 273.15) * 9/5 + 32) + Number.EPSILON) * 100) / 100;
-                //Set Icon
-                setIcons(weather[0].icon, document.querySelector(".icon"));
-
+                update(dayAccessed, data);
                 //event listener change from celciius to farenheight
                 temperatureSection.addEventListener('click', () => {
                     console.log("heyyyy");
@@ -45,11 +43,81 @@ window.addEventListener('load', ()=>{
                         temperatureDegree.textContent = temperature;
                     };
                 });
+                monSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [1, 0, 6, 5, 4, 3, 2]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
+                tueSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [2, 1, 0, 6, 5, 4, 3]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
+                wedSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [3, 2, 1, 0, 6, 5, 4]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
+                thuSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [4, 3, 2, 1, 0, 6, 5]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
+                friSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [5, 4, 3, 2, 1, 0, 6]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
+                satSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [6, 5, 4, 3, 2, 1, 0]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
+                sunSelection.addEventListener('click', () => {
+                    let today = new Date();
+                    let dayNum = today.getDay();
+                    let offset = [0, 6, 5, 4, 3, 2, 1]
+                    dayAccessed = offset[dayNum];
+                    console.log(dayNum);
+                    update(dayAccessed, data);
+                });
             });
         });
        
     }else{
         h1.textContent = "Weather site not working as you have not allowed your location to be visible. Please allow us to view your location, so we can display the weather in your local area"
+    }
+
+    function update(dayAccessed, data){
+        const {temp, weather} = data.daily[dayAccessed];
+        //Set DOM Elements from the API
+        //FORMULA for FARENHEIGHT
+        let temperature = Math.round(((temp['day'] - 273.15) + Number.EPSILON) * 100) / 100;
+        temperatureDegree.textContent = temperature;
+        temperatureDescription.textContent = weather[0].description;
+        locationTimezone.textContent = data.timezone;
+        //FORMULA for FARENHEIGHT
+        let farenheight =  Math.round((((temp['day'] - 273.15) * 9/5 + 32) + Number.EPSILON) * 100) / 100;
+        //Set Icon
+        setIcons(weather[0].icon, document.querySelector(".icon"));
     }
 
     function setIcons(icon, iconID){

@@ -6,7 +6,7 @@
 }
 
 body{
-    --colourOne: rgb(47,150,163);
+    --colourOne: rgb(84,126,189);
     --colourTwo: rgb(48,62,143);
     height: 100vh;
     display: flex;
@@ -26,12 +26,48 @@ body{
     justify-content: space-around;
     align-items: center;
 }
+.weekdays{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: left;
+    font-weight: 700;
+    font-size: 20px;
+    
+}
+.monday{
+    padding-right: 17px;
+    cursor: pointer;
+}
+.tuesday{
+    padding-right: 17px;
+    cursor: pointer;
+}
+.wednesday{
+    padding-right: 17px;
+    cursor: pointer;
+}
+.thursday{
+    cursor: pointer;
+}
+.friday{
+    padding-left: 17px;
+    cursor: pointer;
+}
+.saturday{
+    padding-left: 17px;
+    cursor: pointer;
+}
+.sunday{
+    padding-left: 17px;
+    cursor: pointer;
+}
 .temperature{
     flex-direction: column;
 }
 .temperature-description{
-    font-size: 30px;
+    font-size: 25px;
     font-family: sans-serif;
+    height: 14vh;
 }
 .degree-section{
     display: flex;

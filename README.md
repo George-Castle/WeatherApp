@@ -1,2 +1,2 @@
 # WeatherApp
-An app that displays the weather for selected regions, built using JavaScript, HTML, CSS
+An app that displays the weather where you are, built using JavaScript, HTML, CSS
