@@ -91,7 +91,7 @@ window.addEventListener('load', ()=>{
         h1.textContent = "Weather site not working as you have not allowed your location to be visible. Please allow us to view your location, so we can display the weather in your local area"
     }
     function trianglePos(pos){
-        weekdays = ['18.4%', '-18%', '-11.6%', '-5%', '1.1%', '7%', '12.3%'];
+        weekdays = ['18.4%', '-18%', '-11.6%', '-5%', '1.1%', '7.2%', '12.8%'];
         document.body.style.setProperty('--transform', weekdays[pos]);
     }
     function update(dayAccessed, data){
