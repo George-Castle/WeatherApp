@@ -8,6 +8,7 @@
 body{
     --colourOne: rgb(84,126,189);
     --colourTwo: rgb(48,62,143);
+    --transform: 0%;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -60,6 +61,16 @@ body{
 .sunday{
     padding-left: 17px;
     cursor: pointer;
+}
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+    border-bottom: 11px solid antiquewhite;
+    position: relative;
+    left: var(--transform);
+    
 }
 .temperature{
     flex-direction: column;

@@ -1,6 +1,10 @@
 window.addEventListener('load', ()=>{
     let long;
     let lat;
+    let temperature;
+    let farenheight;
+    let today = new Date();
+    let dayNum = today.getDay();
     let temperatureDescription = document.querySelector(".temperature-description");
     let temperatureDegree = document.querySelector(".temperature-degree");
     let locationTimezone = document.querySelector(".location-timezone");
@@ -19,23 +23,18 @@ window.addEventListener('load', ()=>{
             long = position.coords.longitude;
             lat = position.coords.latitude;
             let dayAccessed = 0;
-            //long = 69.9631;
-            //lat = 32.0208;
 
-            //const proxy = 'https://cors-anywhere.herokuapp.com/';
             const api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&appid=a72fb646dce8682633bce3aada486a94`
             fetch(api)
             .then(response =>{
                 return response.json();
             })
             .then(data =>{
-                console.log(data);
                 update(dayAccessed, data);
+                trianglePos(dayNum);
                 //event listener change from celciius to farenheight
                 temperatureSection.addEventListener('click', () => {
-                    console.log("heyyyy");
                     if (temperatureSpan.textContent == "C"){
-                        console.log("heyyyy111");
                         temperatureSpan.textContent = "F";
                         temperatureDegree.textContent = farenheight;
                     } else {
@@ -44,59 +43,45 @@ window.addEventListener('load', ()=>{
                     };
                 });
                 monSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [1, 0, 6, 5, 4, 3, 2]
+                    trianglePos(1);
+                    let offset = [1, 0, 6, 5, 4, 3, 2];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
                 tueSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [2, 1, 0, 6, 5, 4, 3]
+                    trianglePos(2);
+                    let offset = [2, 1, 0, 6, 5, 4, 3];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
                 wedSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [3, 2, 1, 0, 6, 5, 4]
+                    trianglePos(3);
+                    let offset = [3, 2, 1, 0, 6, 5, 4];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
                 thuSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [4, 3, 2, 1, 0, 6, 5]
+                    trianglePos(4);
+                    let offset = [4, 3, 2, 1, 0, 6, 5];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
                 friSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [5, 4, 3, 2, 1, 0, 6]
+                    trianglePos(5);
+                    let offset = [5, 4, 3, 2, 1, 0, 6];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
                 satSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [6, 5, 4, 3, 2, 1, 0]
+                    trianglePos(6);
+                    let offset = [6, 5, 4, 3, 2, 1, 0];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
                 sunSelection.addEventListener('click', () => {
-                    let today = new Date();
-                    let dayNum = today.getDay();
-                    let offset = [0, 6, 5, 4, 3, 2, 1]
+                    trianglePos(0);
+                    let offset = [0, 6, 5, 4, 3, 2, 1];
                     dayAccessed = offset[dayNum];
-                    console.log(dayNum);
                     update(dayAccessed, data);
                 });
             });
@@ -105,17 +90,21 @@ window.addEventListener('load', ()=>{
     }else{
         h1.textContent = "Weather site not working as you have not allowed your location to be visible. Please allow us to view your location, so we can display the weather in your local area"
     }
-
+    function trianglePos(pos){
+        weekdays = ['18.4%', '-18%', '-11.6%', '-5%', '1.1%', '7%', '12.3%'];
+        document.body.style.setProperty('--transform', weekdays[pos]);
+    }
     function update(dayAccessed, data){
         const {temp, weather} = data.daily[dayAccessed];
         //Set DOM Elements from the API
-        //FORMULA for FARENHEIGHT
-        let temperature = Math.round(((temp['day'] - 273.15) + Number.EPSILON) * 100) / 100;
+        //FORMULA for CELCIUS
+        temperature = Math.round(((temp['day'] - 273.15) + Number.EPSILON) * 100) / 100;
         temperatureDegree.textContent = temperature;
+        temperatureSpan.textContent = "C";
         temperatureDescription.textContent = weather[0].description;
         locationTimezone.textContent = data.timezone;
         //FORMULA for FARENHEIGHT
-        let farenheight =  Math.round((((temp['day'] - 273.15) * 9/5 + 32) + Number.EPSILON) * 100) / 100;
+        farenheight =  Math.round((((temp['day'] - 273.15) * 9/5 + 32) + Number.EPSILON) * 100) / 100;
         //Set Icon
         setIcons(weather[0].icon, document.querySelector(".icon"));
     }
